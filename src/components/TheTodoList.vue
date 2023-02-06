@@ -11,18 +11,18 @@ interface Emits {
   (e: "onDelete", todoId: Todo["id"]): void;
 }
 
-defineProps<Props>();
-defineEmits<Emits>();
+const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 </script>
 
 <template>
   <ol class="list-group">
     <TheTodoItem
-      v-for="todo in todos"
+      v-for="todo in props.todos"
       :key="todo.id"
       :todo="todo"
-      @onEdit="$emit('onEdit', $event)"
-      @onDelete="$emit('onDelete', $event)"
+      @onEdit="emits('onEdit', $event)"
+      @onDelete="emits('onDelete', $event)"
     />
   </ol>
 </template>

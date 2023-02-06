@@ -5,3 +5,8 @@ export interface Todo {
   body: string;
   checked: boolean;
 }
+
+export interface TodoForm {
+  title: string;
+  body: string;
+}

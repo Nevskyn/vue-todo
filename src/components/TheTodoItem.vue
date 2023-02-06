@@ -10,8 +10,12 @@ interface Emits {
   (e: "onDelete", todoId: Todo["id"]): void;
 }
 
-defineProps<Props>();
-defineEmits<Emits>();
+const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
+
+const onChangeCheckbox = () => {
+  emits("onEdit", { ...props.todo, checked: !props.todo.checked });
+};
 </script>
 
 <template>
@@ -19,16 +23,19 @@ defineEmits<Emits>();
     <input
       class="item__checkbox form-check-input my-auto"
       type="checkbox"
-      :checked="todo.checked"
-      @change="$emit('onEdit', { ...todo, checked: !todo.checked })"
+      :checked="props.todo.checked"
+      @change="onChangeCheckbox"
       id="firstCheckbox"
     />
-    <div class="ms-2" :class="{ 'text-decoration-line-through': todo.checked }">
-      <div class="fw-bold">{{ todo.title }}</div>
-      {{ todo.body }}
+    <div
+      class="ms-2"
+      :class="{ 'text-decoration-line-through': props.todo.checked }"
+    >
+      <div class="fw-bold">{{ props.todo.title }}</div>
+      {{ props.todo.body }}
     </div>
     <span
-      @click="$emit('onDelete', todo.id)"
+      @click="emits('onDelete', props.todo.id)"
       class="item__basket badge text-secondary rounded-pill"
       >X</span
     >

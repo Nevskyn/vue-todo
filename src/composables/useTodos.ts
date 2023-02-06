@@ -1,11 +1,12 @@
-import { Todo } from "@/interfaces/Todo";
+import { Todo, TodoForm } from "@/interfaces/Todo";
 import {
   useFetchTodos,
   UseFetchTodosReturn,
 } from "@/composables/useFetchTodos";
+import { Ref } from "vue";
 
 interface UseTodosReturn extends UseFetchTodosReturn {
-  onCreate: (formValues: Omit<Todo, "userId" | "id">) => Promise<void>;
+  onCreate: (formValues: Ref<TodoForm>) => Promise<void>;
   onEdit: (editedTodo: Todo) => void;
   onDelete: (todoId: Todo["id"]) => void;
 }
@@ -13,12 +14,14 @@ interface UseTodosReturn extends UseFetchTodosReturn {
 export const useTodos = (): UseTodosReturn => {
   const { todos, isLoading } = useFetchTodos();
 
-  const onCreate = async (formValues: Omit<Todo, "userId" | "id">) => {
-    const newTodo = {
-      ...formValues,
+  const onCreate = async (formValues: Ref<TodoForm>) => {
+    const newTodo: Todo = {
+      ...formValues.value,
       userId: "1",
       id: Math.random() * 100,
+      checked: false,
     };
+
     todos.value.push(newTodo);
   };
 

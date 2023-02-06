@@ -8,19 +8,23 @@ interface Emits {
   (e: "update:modelValue", value: string): void;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   placeholder: "",
 });
-defineEmits<Emits>();
+const emits = defineEmits<Emits>();
+
+const onChangeInput = (e: Event) => {
+  emits("update:modelValue", (e.target as HTMLInputElement).value);
+};
 </script>
 
 <template>
   <div class="input-group">
     <textarea
-      :value="modelValue"
-      :placeholder="placeholder"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="props.modelValue"
+      :placeholder="props.placeholder"
+      @input="onChangeInput"
       class="form-control"
     ></textarea>
   </div>
