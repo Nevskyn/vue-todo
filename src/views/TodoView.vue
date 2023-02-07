@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { onMounted } from "vue";
 import TheTodoForm from "@/components/TheTodoForm.vue";
 import TheTodoList from "@/components/TheTodoList.vue";
 import AppLoader from "@/components/AppLoader.vue";
-import { useTodos } from "@/composables/useTodos";
+import { useTodosStore } from "@/stors/Todos";
 
-const { todos, isLoading, onCreate, onEdit, onDelete } = useTodos();
+const todosStore = useTodosStore();
 
-const reversedTodos = computed(() => [...todos.value].reverse());
+onMounted(todosStore.fetchTodos);
 </script>
 
 <template>
   <div
     class="container todo__container d-flex flex-column justify-content-center"
-    :class="{ 'flex-grow-1': isLoading }"
+    :class="{ 'flex-grow-1': todosStore.isLoading }"
   >
-    <div v-if="!isLoading">
-      <TheTodoForm @onCreate="onCreate" />
+    <div v-if="!todosStore.isLoading">
+      <TheTodoForm @onCreate="todosStore.onCreate" />
       <TheTodoList
-        :todos="reversedTodos"
+        :todos="todosStore.todos"
+        @onEdit="todosStore.onEdit"
+        @onDelete="todosStore.onDelete"
         class="mt-5"
-        @onEdit="onEdit"
-        @onDelete="onDelete"
       />
     </div>
     <AppLoader v-else class="mt-5" />
