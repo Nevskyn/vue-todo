@@ -14,7 +14,7 @@ const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 
 const onChangeCheckbox = () => {
-  emits("onEdit", { ...props.todo, checked: !props.todo.checked });
+  emits("onEdit", { ...props.todo, completed: !props.todo.completed });
 };
 </script>
 
@@ -23,13 +23,13 @@ const onChangeCheckbox = () => {
     <input
       class="item__checkbox form-check-input my-auto"
       type="checkbox"
-      :checked="props.todo.checked"
+      :checked="props.todo.completed"
       @change="onChangeCheckbox"
       id="firstCheckbox"
     />
     <div
       class="ms-2"
-      :class="{ 'text-decoration-line-through': props.todo.checked }"
+      :class="{ 'text-decoration-line-through': props.todo.completed }"
     >
       <div class="fw-bold">{{ props.todo.title }}</div>
       {{ props.todo.body }}

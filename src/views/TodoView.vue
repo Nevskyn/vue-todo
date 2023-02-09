@@ -13,10 +13,13 @@ onMounted(todosStore.fetchTodos);
 <template>
   <div
     class="container todo__container d-flex flex-column justify-content-center"
-    :class="{ 'flex-grow-1': todosStore.isLoading }"
+    :class="{ 'flex-grow-1': todosStore.isFetchLoading }"
   >
-    <div v-if="!todosStore.isLoading">
-      <TheTodoForm @onCreate="todosStore.onCreate" />
+    <div v-if="!todosStore.isFetchLoading">
+      <TheTodoForm
+        :isLoading="todosStore.isCreateLoading"
+        @onCreate="todosStore.onCreate"
+      />
       <TheTodoList
         :todos="todosStore.todos"
         @onEdit="todosStore.onEdit"

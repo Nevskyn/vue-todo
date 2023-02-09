@@ -19,9 +19,18 @@ const emits = defineEmits<Emits>();
 <template>
   <button
     :type="props.type"
+    :disabled="props.isLoading"
     @click="emits('onClick')"
     class="btn btn-outline-success"
   >
-    {{ label }}
+    <div v-if="!props.isLoading">
+      {{ label }}
+    </div>
+    <span
+      v-else
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    />
   </button>
 </template>
